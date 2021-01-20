@@ -12,18 +12,19 @@ export type Size = {
 }
 
 export const getDrawTextParameter = (text: string, position: Position, textSize: Size, imageSize: Size): DrawTextParameter => {
+  const padding = 16;
   switch(position) {
     case "upper-left": {
-      return { x: 0, y: 0, text }
+      return { x: 0 + padding, y: 0 + padding, text }
     };
     case "upper-right": {
-      return { x: imageSize.width - textSize.width, y: 0, text }
+      return { x: imageSize.width - textSize.width - padding, y: 0 + padding, text }
     };
     case "lower-left": {
-      return { x: 0, y: imageSize.height - textSize.height, text }
+      return { x: 0 + padding, y: imageSize.height - textSize.height - padding, text }
     };
     case "lower-right": {
-      return { x: imageSize.width - textSize.width, y: imageSize.height - textSize.height, text }
+      return { x: imageSize.width - textSize.width - padding, y: imageSize.height - textSize.height - padding, text }
     };
   }
 }

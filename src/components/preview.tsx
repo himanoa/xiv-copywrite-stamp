@@ -3,6 +3,7 @@ import { ImageParams } from "../image"
 import { Events, isChangeCopyrightPosition  } from "../event"
 import { getDrawTextParameter } from "../draw-text";
 import styled from 'styled-components';
+import { Emitter, DefaultEvents } from "nanoevents"
 
 const PreviewInner = styled.div`
   max-width: 100%;
@@ -15,7 +16,7 @@ const PreviewInner = styled.div`
 
 interface Props {
   imageParams: ImageParams,
-  listen: (callback: (e: Events) => void) => void
+  emitter: Emitter<DefaultEvents>
 }
 
 const COPYRIGHT = "(C) 2010 SQUARE ENIX CO., LTD. All Rights Reserve"
@@ -25,7 +26,7 @@ export const Preview = (props: Props) => {
   const copyrightRef = useRef<HTMLSpanElement | null>(null)
 
   useEffect(() => {
-    props.listen((e) => {
+    props.emitter.on("ChangeCopyrightPosition", (e) => {
       console.log("hello")
       const copyrightDom = copyrightRef.current
       const canvas = canvasRef.current
@@ -42,10 +43,11 @@ export const Preview = (props: Props) => {
         const params = getDrawTextParameter(COPYRIGHT, e.position, textSize, canvasSize)
 
         const ctx = canvasRef.current?.getContext('2d')
+        console.dir(params)
         ctx?.strokeText(params.text, params.x, params.y)
       }
     })
-  }, [props.listen, canvasRef.current, copyrightRef.current])
+  }, [props.emitter, canvasRef.current, copyrightRef.current])
 
   useEffect(() => {
     if(canvasRef.current) {

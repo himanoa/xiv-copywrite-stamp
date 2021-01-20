@@ -37,14 +37,14 @@ export const Content = () => {
     eventListener.emit("ChangeCopyrightPosition", e)
   }, [eventListener.emit])
 
-  const listen = useCallback((e) => {
-    return (c: ChangeCopyrightPositionListener) => eventListener.on("ChangeCopyrightPosition", c)
+  const listen = useCallback(() => {
+    return (c: ChangeCopyrightPositionListener) => eventListener.on("ChangeCopyrightPosition", c).bind(eventListener)
   }, [eventListener.on])
 
   return (
     <ContentInner>
       <div className="preview">
-        <Previewer onUploaded={onUploaded} imageParams={imageParams} listen={listen}/>
+        <Previewer onUploaded={onUploaded} imageParams={imageParams} emitter={eventListener}/>
       </div>
       <div className="property-editor">
         <PropertyEditor emit={emit}/>

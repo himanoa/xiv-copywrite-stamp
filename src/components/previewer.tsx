@@ -3,11 +3,12 @@ import { Uploader } from './uploader'
 import { Preview } from './preview'
 import { ImageParams } from "../image"
 import { Events } from "../event"
+import { Emitter, DefaultEvents } from "nanoevents"
 
 interface Props {
   imageParams: ImageParams | null, 
   onUploaded: (imageParams: ImageParams) => void
-  listen: (callback: (e: Events) => void) => void
+  emitter: Emitter<DefaultEvents>
 }
 
 
@@ -18,7 +19,7 @@ export const Previewer = (props: Props) => {
     )
   } else if(props.imageParams) {
     return (
-      <Preview imageParams={props.imageParams} listen={props.listen}/>
+      <Preview imageParams={props.imageParams} emitter={props.emitter}/>
     )
   }
   return <></>
