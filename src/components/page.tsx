@@ -9,6 +9,9 @@ const PageInner = styled.div`
   flex-direction: column;
   min-height: 100vh;
 
+  header {
+    margin-bottom: 4px;
+  }
   section {
     height: 100%;
     margin-top: auto;
@@ -21,7 +24,9 @@ const PageInner = styled.div`
 export const Page = () => {
   return (
     <PageInner>
-      <Header></Header>
+      <header>
+        <Header></Header>
+      </header>
       <section>
         <Content></Content>
       </section>
