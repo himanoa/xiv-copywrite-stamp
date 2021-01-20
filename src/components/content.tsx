@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Previewer } from './previewer'
 import { PropertyEditor } from './property-editor'
 import { ImageParams } from '../image'
+import { createNanoEvents } from 'nanoevents'
 
 const ContentInner = styled.div`
   display: flex;

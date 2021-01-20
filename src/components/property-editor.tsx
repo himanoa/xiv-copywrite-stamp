@@ -1,17 +1,25 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { RadioGroup, Radio } from '@blueprintjs/core'
+import { Position, changeCopyrightPosition, Emitter } from '../event'
 
 interface Props {
-
+  emit: Emitter
 }
 
 interface CopyrightPositionRadioGroupProps {
-  onCopyrightPositionChange: (e: React.FormEvent<HTMLInputElement>) => void
+  onCopyrightPositionChange: (e: string) => void
 }
 
 export const CopyrightPositionRadioGroup = (props: CopyrightPositionRadioGroupProps) => {
+  const [position, setPosition] = useState<Position | undefined>(undefined)
+
+  const onChange = useCallback((v) => {
+    setPosition(v.target.value)
+    props.onCopyrightPositionChange(v.target.value)
+  }, [setPosition, props.onCopyrightPositionChange])
+
   return (
-    <RadioGroup label={"コピーライトの位置"} onChange={props.onCopyrightPositionChange}>
+    <RadioGroup label="コピーライトの位置" onChange={onChange} selectedValue={position}>
       <Radio label="左上" value="upper-left"/>
       <Radio label="左下" value="lower-left"/>
       <Radio label="右上" value="upper-right"/>
@@ -21,9 +29,8 @@ export const CopyrightPositionRadioGroup = (props: CopyrightPositionRadioGroupPr
 }
 
 export const PropertyEditor = (props: Props) => {
-  const onCopyrightPositionChange = useCallback((v) => {
-    console.dir(v.target.value)
-  }, [])
+  const onCopyrightPositionChange = useCallback(changeCopyrightPosition({emit: props.emit}), [props.emit])
+
   return (
     <form>
       <CopyrightPositionRadioGroup onCopyrightPositionChange={onCopyrightPositionChange}/>
