@@ -20,6 +20,7 @@
     "react-dom": "^17.0.1"
   },
   "scripts": {
-    "start": "webpack serve -c webpack.config.dev.js"
+    "start": "webpack serve -c webpack.config.dev.js",
+    "check": "tsc --noEmit --watch"
   }
 }
