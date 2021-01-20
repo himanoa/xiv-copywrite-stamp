@@ -28,10 +28,11 @@ export const Preview = (props: Props) => {
     props.listen((e) => {
       const copyrightDom = copyrightRef.current
       const canvas = canvasRef.current
+
       if(copyrightDom && canvas && isChangeCopyrightPosition(e)) {
         const textSize = {
-          width: parseInt(window.getComputedStyle(copyrightDom).width, 10),
-          height: parseInt(window.getComputedStyle(copyrightDom).width, 10)
+          width: copyrightDom.offsetWidth,
+          height: copyrightDom.offsetHeight 
         }
         const canvasSize = {
           width: canvas.width,
@@ -41,7 +42,9 @@ export const Preview = (props: Props) => {
         const params = getDrawTextParameter(COPYRIGHT, e.position, textSize, canvasSize)
 
         const ctx = canvasRef.current?.getContext('2d')
-        console.dir(params)
+        const image = new Image()
+        image.src = props.imageParams.dataUrl
+        ctx?.drawImage(image, 0, 0)
         ctx?.strokeText(params.text, params.x, params.y)
       }
     })

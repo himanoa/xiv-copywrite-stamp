@@ -13,6 +13,8 @@ export type Size = {
 
 export const getDrawTextParameter = (text: string, position: Position, textSize: Size, imageSize: Size): DrawTextParameter => {
   const padding = 16;
+  console.dir(imageSize)
+  console.dir(textSize)
   switch(position) {
     case "upper-left": {
       return { x: 0 + padding, y: 0 + padding, text }
