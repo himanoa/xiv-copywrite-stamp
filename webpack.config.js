@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack')
 
 module.exports = ({
   mode
@@ -13,6 +14,12 @@ module.exports = ({
       }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env": {},
+      global: {}
+    })
+  ],
   devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
