@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { Preview } from './preview'
+import { Previewer } from './previewer'
 import { UploadState } from '../state'
 
 const ContentInner = styled.div`
@@ -27,7 +27,7 @@ export const Content = () => {
   return (
     <ContentInner>
       <div className="preview">
-        <Preview onUploaded={onUploaded} state={uploadedState} />
+        <Previewer onUploaded={onUploaded} state={uploadedState} />
       </div>
       <div className="properties-form">
       </div>
