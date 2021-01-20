@@ -15,6 +15,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.37.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
