@@ -1,9 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import { ImageParams } from "../image"
-import { Events, isChangeCopyrightPosition  } from "../event"
+import { isChangeCopyrightPosition  } from "../event"
 import { getDrawTextParameter } from "../draw-text";
 import styled from 'styled-components';
-import { Emitter, DefaultEvents } from "nanoevents"
 
 const PreviewInner = styled.div`
   max-width: 100%;
@@ -16,7 +15,7 @@ const PreviewInner = styled.div`
 
 interface Props {
   imageParams: ImageParams,
-  emitter: Emitter<DefaultEvents>
+  listen: (cb: (e: any) => void) => void
 }
 
 const COPYRIGHT = "(C) 2010 SQUARE ENIX CO., LTD. All Rights Reserve"
@@ -26,8 +25,7 @@ export const Preview = (props: Props) => {
   const copyrightRef = useRef<HTMLSpanElement | null>(null)
 
   useEffect(() => {
-    props.emitter.on("ChangeCopyrightPosition", (e) => {
-      console.log("hello")
+    props.listen((e) => {
       const copyrightDom = copyrightRef.current
       const canvas = canvasRef.current
       if(copyrightDom && canvas && isChangeCopyrightPosition(e)) {
@@ -47,7 +45,7 @@ export const Preview = (props: Props) => {
         ctx?.strokeText(params.text, params.x, params.y)
       }
     })
-  }, [props.emitter, canvasRef.current, copyrightRef.current])
+  }, [props.listen, canvasRef.current, copyrightRef.current])
 
   useEffect(() => {
     if(canvasRef.current) {
