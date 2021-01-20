@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Alignment, Colors } from '@blueprintjs/core'
+import { Navbar, NavbarGroup, NavbarHeading, Alignment, Colors } from '@blueprintjs/core'
 interface Props {
 
 }

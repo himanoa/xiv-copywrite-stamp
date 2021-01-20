@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import { Card } from "@blueprintjs/core"
 import { ImageParams } from "../image"
 import styled from 'styled-components'
 
