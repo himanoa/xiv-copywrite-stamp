@@ -1,5 +1,13 @@
 export type Events = ChangeCopyrightPosition 
 
+export const isEvents = (e: any) => {
+  // かなりゆるめの処理(めんどうなので)
+  if(e.eventType) {
+    return true
+  }
+  return false
+}
+
 export type Position = "upper-left" | "upper-right" | "lower-left" | "lower-right"
 
 export type ChangeCopyrightPosition = {
@@ -12,7 +20,7 @@ export const isPosition = (position: string): position is Position => {
     case 'upper-left': {
       return true;
     };
-    case 'uppper-right': {
+    case 'upper-right': {
       return true;
     };
     case 'lower-left': {

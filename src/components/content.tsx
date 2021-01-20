@@ -4,6 +4,7 @@ import { Previewer } from './previewer'
 import { PropertyEditor } from './property-editor'
 import { ImageParams } from '../image'
 import { createNanoEvents } from 'nanoevents'
+import { isEvents } from '../event'
 
 const ContentInner = styled.div`
   display: flex;
@@ -27,9 +28,18 @@ const ContentInner = styled.div`
 export const Content = () => {
   const [imageParams, setImageParams] = useState<ImageParams | null>(null)
 
+  const eventListener = createNanoEvents()
   const onUploaded = useCallback((imageParams: ImageParams) => {
     setImageParams(imageParams)
   }, [setImageParams])
+
+  const emit = useCallback((e: any) => {
+    if(isEvents(e)) {
+      eventListener.emit(e)
+    } else {
+      throw new Error(`不明なオブジェクトです`)
+    }
+  }, [eventListener.emit])
 
   return (
     <ContentInner>
@@ -37,7 +47,7 @@ export const Content = () => {
         <Previewer onUploaded={onUploaded} imageParams={imageParams}/>
       </div>
       <div className="property-editor">
-        <PropertyEditor />
+        <PropertyEditor emit={emit}/>
       </div>
     </ContentInner>
   )
