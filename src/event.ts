@@ -1,8 +1,11 @@
-export type Events = ChangeCopyrightPosition 
+const events = [
+  "ChangeCopyrightPosition"
+] as const
 
-export const isEvents = (e: any) => {
-  // かなりゆるめの処理(めんどうなので)
-  if(e.eventType) {
+export type Events = typeof events[number]
+
+export const isEvents = (e: string): e is Events => {
+  if(events.includes(e as any)) {
     return true
   }
   return false
@@ -10,9 +13,17 @@ export const isEvents = (e: any) => {
 
 export type Position = "upper-left" | "upper-right" | "lower-left" | "lower-right"
 
-export type ChangeCopyrightPosition = {
-  eventType: "ChangeCopyrightPosition",
+
+export type ChangeCopyrightPositionPayload = {
   position: Position 
+}
+export type ChangeCopyrightPositionListener = (c: ChangeCopyrightPositionPayload) => void
+
+export const isChangeCopyrightPosition = (e: any): e is ChangeCopyrightPositionPayload => {
+  if(isPosition(e.position)) {
+    return true
+  } 
+  return false;
 }
 
 export const isPosition = (position: string): position is Position => {
@@ -33,17 +44,15 @@ export const isPosition = (position: string): position is Position => {
   return false;
 }
 
-export type Emitter = (e: Events) => void
-
 export const changeCopyrightPosition = (deps: {
-  emit: Emitter
+  emit: (params: ChangeCopyrightPositionPayload) => void
 }) => (v: string) => {
   if(isPosition(v)) {
     deps.emit({
-      eventType: "ChangeCopyrightPosition",
       position: v
     })
   } else {
     throw new Error(`${v}は許容されたPositionではありません`)
   }
 }
+

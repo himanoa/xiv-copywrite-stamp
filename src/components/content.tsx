@@ -4,7 +4,7 @@ import { Previewer } from './previewer'
 import { PropertyEditor } from './property-editor'
 import { ImageParams } from '../image'
 import { createNanoEvents } from 'nanoevents'
-import { isEvents } from '../event'
+import { isEvents, ChangeCopyrightPositionListener } from '../event'
 
 const ContentInner = styled.div`
   display: flex;
@@ -34,17 +34,17 @@ export const Content = () => {
   }, [setImageParams])
 
   const emit = useCallback((e: any) => {
-    if(isEvents(e)) {
-      eventListener.emit(e)
-    } else {
-      throw new Error(`不明なオブジェクトです`)
-    }
+    eventListener.emit("ChangeCopyrightPosition", e)
   }, [eventListener.emit])
+
+  const listen = useCallback((e) => {
+    return (c: ChangeCopyrightPositionListener) => eventListener.on("ChangeCopyrightPosition", c)
+  }, [eventListener.on])
 
   return (
     <ContentInner>
       <div className="preview">
-        <Previewer onUploaded={onUploaded} imageParams={imageParams}/>
+        <Previewer onUploaded={onUploaded} imageParams={imageParams} listen={listen}/>
       </div>
       <div className="property-editor">
         <PropertyEditor emit={emit}/>

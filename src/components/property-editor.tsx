@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { RadioGroup, Radio } from '@blueprintjs/core'
-import { Position, changeCopyrightPosition, Emitter } from '../event'
+import { Position, changeCopyrightPosition, ChangeCopyrightPositionListener } from '../event'
 
 interface Props {
-  emit: Emitter
+  emit: ChangeCopyrightPositionListener
 }
 
 interface CopyrightPositionRadioGroupProps {
