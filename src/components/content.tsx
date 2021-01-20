@@ -10,6 +10,7 @@ const ContentInner = styled.div`
   .preview {
     max-width: 50vw;
   }
+
   .properties-form {
     max-width: 50vw;
   }
@@ -18,7 +19,8 @@ const ContentInner = styled.div`
 export const Content = () => {
   const [uploadedState, setUploadedState] = useState<UploadState>('not-uploaded')
 
-  const onUploaded = useCallback(() => {
+  const onUploaded = useCallback((dataUrl: string) => {
+    console.dir(dataUrl)
     setUploadedState('uploaded')
   }, [setUploadedState])
 
