@@ -1,24 +1,23 @@
 import React from 'react'
-import { UploadState } from "../state"
-import { Card } from "@blueprintjs/core"
 import { Uploader } from './uploader'
+import { Preview } from './preview'
+import { ImageParams } from "../image"
 
 interface Props {
-  state: UploadState
-  onUploaded: (dataUrl: string) => void
+  imageParams: ImageParams | null, 
+  onUploaded: (imageParams: ImageParams) => void
 }
 
 
 export const Previewer = (props: Props) => {
-  if(props.state === 'not-uploaded') {
+  if(props.imageParams === null) {
     return (
       <Uploader onUploaded={props.onUploaded}/>
     )
-  } else if(props.state === 'uploaded') {
+  } else if(props.imageParams) {
     return (
-      <Card>
-      </Card>
+      <Preview imageParams={props.imageParams}/>
     )
   }
-  return <>開発者向け: サポートされていない状態です</>
+  return <></>
 }

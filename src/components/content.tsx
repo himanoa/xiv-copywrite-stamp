@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { Previewer } from './previewer'
-import { UploadState } from '../state'
+import { ImageParams } from '../image'
 
 const ContentInner = styled.div`
   flex: 1;
@@ -17,17 +17,16 @@ const ContentInner = styled.div`
 `
 
 export const Content = () => {
-  const [uploadedState, setUploadedState] = useState<UploadState>('not-uploaded')
+  const [imageParams, setImageParams] = useState<ImageParams | null>(null)
 
-  const onUploaded = useCallback((dataUrl: string) => {
-    console.dir(dataUrl)
-    setUploadedState('uploaded')
-  }, [setUploadedState])
+  const onUploaded = useCallback((imageParams: ImageParams) => {
+    setImageParams(imageParams)
+  }, [setImageParams])
 
   return (
     <ContentInner>
       <div className="preview">
-        <Previewer onUploaded={onUploaded} state={uploadedState} />
+        <Previewer onUploaded={onUploaded} imageParams={imageParams}/>
       </div>
       <div className="properties-form">
       </div>

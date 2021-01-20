@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 import { Icon, Label, Card } from "@blueprintjs/core"
 import styled from 'styled-components'
+import { ImageParams } from '../image'
 
 const UploaderInner = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ const UploaderInner = styled.div`
 `
 
 interface Props {
-  onUploaded: (dataURL: string) => void
+  onUploaded: (imageParams: ImageParams) => void
 }
 
 export const Uploader = (props: Props) => {
@@ -40,7 +41,7 @@ export const Uploader = (props: Props) => {
 
       reader.addEventListener("loadend", (event) => {
         if(event.target?.result && typeof event.target.result === 'string') {
-          props.onUploaded(event.target.result)
+          props.onUploaded({dataUrl: event.target.result})
         }
       })
       reader.readAsDataURL(file)
