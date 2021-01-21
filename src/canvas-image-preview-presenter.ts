@@ -1,6 +1,6 @@
-import { Position } from './event'
 import { ImagePreviewPresenter, LoadResult } from "./image-preview-presenter"
 import { getDrawTextParameter } from "./draw-text";
+import { Position } from './text-property'
 
 export function createCanvasImagePreviewPresenter(
   canvasElement: HTMLCanvasElement | null,

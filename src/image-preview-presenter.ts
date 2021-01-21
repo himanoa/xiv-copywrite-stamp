@@ -1,4 +1,4 @@
-import { Position } from './event'
+import { Position } from './text-property'
 import { Size } from "./draw-text";
 
 export type LoadResult =  {

@@ -1,6 +1,7 @@
-import React, { FormEventHandler, useCallback, useState } from 'react'
-import { RadioGroup, Radio } from '@blueprintjs/core'
-import { Position, ChangeCopyrightPositionListener, isPosition } from '../event'
+import React, { useCallback, useState } from 'react'
+import { RadioGroup, Radio, FormGroup, NumericInput } from '@blueprintjs/core'
+import { ChangeCopyrightPositionListener } from '../event'
+import { TextProperty, defaultProperty, Position, isPosition } from '../text-property'
 
 interface Props {
   emit: ChangeCopyrightPositionListener
@@ -23,15 +24,23 @@ export const CopyrightPositionRadioGroup = (props: CopyrightPositionRadioGroupPr
 }
 
 
-type FormState = {
-  fontSize: number,
-  position: Position | undefined
+interface FontSizeInputProps {
+  value: number
+  onChange: React.FormEventHandler<HTMLInputElement> 
 }
+
+export const FontSizeInput = (props: FontSizeInputProps) => {
+  return (
+    <FormGroup label="フォントサイズ" >
+
+      <NumericInput defaultValue={props.value} onChange={props.onChange}/>
+    </FormGroup>
+  )
+}
+
+
 export const PropertyEditor = (props: Props) => {
-  const [formState, setFormState] = useState<FormState>({
-    fontSize: 14,
-    position: undefined
-  })
+  const [formState, setFormState] = useState<TextProperty>(defaultProperty())
 
   const onCopyrightPositionChange = useCallback<React.FormEventHandler<HTMLInputElement>>((e: React.ChangeEvent<HTMLInputElement>) => {
     if(isPosition(e.target.value)) {
@@ -41,9 +50,17 @@ export const PropertyEditor = (props: Props) => {
     }
   }, [formState, setFormState, props.emit])
 
+
+  const onFontSizeChange = useCallback<React.FormEventHandler<HTMLInputElement>>((e: React.ChangeEvent<HTMLInputElement>) => {
+    const newState = {...formState, fontSize: parseInt(e.target.value, 10)}
+    props.emit(newState)
+    setFormState(newState)
+  }, [formState, setFormState, props.emit])
+
   return (
     <form>
       <CopyrightPositionRadioGroup onCopyrightConfigChange={onCopyrightPositionChange} value={formState.position}/>
+      <FontSizeInput onChange={onFontSizeChange} value={formState.fontSize} />
     </form>
   )
 }

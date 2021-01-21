@@ -1,4 +1,4 @@
-import { Position } from "./event"
+import { Position } from "./text-property"
 
 export type DrawTextParameter = {
   text: string;
