@@ -1,10 +1,24 @@
 import React, { useCallback, useState } from 'react'
 import { RadioGroup, Radio, FormGroup, NumericInput } from '@blueprintjs/core'
 import { ChangeCopyrightPositionListener } from '../event'
-import { TextProperty, defaultProperty, Position, isPosition } from '../text-property'
+import { TextProperty, defaultProperty, Position, isPosition, isFontColor, FontColor } from '../text-property'
 
 interface Props {
   emit: ChangeCopyrightPositionListener
+}
+
+interface FontColorRadioGroupProps {
+  value: FontColor
+  onChange: React.FormEventHandler<HTMLInputElement> 
+}
+
+export const FontColorRadioGroup = (props: FontColorRadioGroupProps) => {
+  return (
+    <RadioGroup label="フォントの色" onChange={props.onChange} selectedValue={props.value}>
+      <Radio label="白" value="white"/>
+      <Radio label="黒" value="black"/>
+    </RadioGroup>
+  )
 }
 
 interface CopyrightPositionRadioGroupProps {
@@ -37,9 +51,23 @@ export const FontSizeInput = (props: FontSizeInputProps) => {
   )
 }
 
-
 export const PropertyEditor = (props: Props) => {
   const [formState, setFormState] = useState<TextProperty>(defaultProperty())
+
+  const onFontColorChange = useCallback<React.FormEventHandler<HTMLInputElement>>((e: React.ChangeEvent<HTMLInputElement>) => {
+    if(isFontColor(e.target.value)) {
+      const newState = {...formState, fontColor: e.target.value}
+      props.emit(newState)
+      setFormState(newState)
+    }
+  }, [formState, setFormState, props.emit])
+
+
+  const onFontSizeChange = useCallback<(fontSize: number) => void>((fontSize) => {
+    const newState = {...formState, fontSize}
+    props.emit(newState)
+    setFormState(newState)
+  }, [formState, setFormState, props.emit])
 
   const onCopyrightPositionChange = useCallback<React.FormEventHandler<HTMLInputElement>>((e: React.ChangeEvent<HTMLInputElement>) => {
     if(isPosition(e.target.value)) {
@@ -49,18 +77,11 @@ export const PropertyEditor = (props: Props) => {
     }
   }, [formState, setFormState, props.emit])
 
-
-  const onFontSizeChange = useCallback<(fontSize: number) => void>((fontSize) => {
-    const newState = {...formState, fontSize}
-    console.dir(newState)
-    props.emit(newState)
-    setFormState(newState)
-  }, [formState, setFormState, props.emit])
-
   return (
     <form>
       <CopyrightPositionRadioGroup onCopyrightConfigChange={onCopyrightPositionChange} value={formState.position}/>
       <FontSizeInput onChange={onFontSizeChange} value={formState.fontSize} />
+        <FontColorRadioGroup onChange={onFontColorChange} value={formState.fontColor}/>
     </form>
   )
 }
