@@ -25,6 +25,7 @@
   },
   "scripts": {
     "start": "webpack serve -c webpack.config.dev.js",
-    "check": "tsc --noEmit --watch"
+    "check": "tsc --noEmit --watch",
+    "build": "webpack build -c webpack.config.prod.js"
   }
 }
