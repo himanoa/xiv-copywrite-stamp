@@ -5,7 +5,7 @@ import { createCanvasImagePreviewPresenter } from '../canvas-image-preview-prese
 
 const PreviewInner = styled.div`
   max-width: 100%;
-  max-height: 100%;
+  max-height: 1080px;
   overflow: scroll;
   span {
     visibility: hidden;

@@ -13,17 +13,17 @@ const ContentInner = styled.div`
   flex-direction: row;
 
   div {
-    max-width: 50vw;
     padding: 4px;
   }
 
   .preview {
-    width: 50vw;
+    width: 70vw;
     min-height: 500px;
+    max-height: 1080px;
   }
 
   .property-editor {
-    width: 50vw;
+    width: 30vw;
     * {
       height: auto;
     }
