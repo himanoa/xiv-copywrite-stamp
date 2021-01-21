@@ -14,7 +14,7 @@ const PageInner = styled.div`
   }
   section {
     height: 100%;
-    margin-top: auto;
+    margin-top: 0;
   }
 
   footer {

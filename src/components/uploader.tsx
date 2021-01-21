@@ -10,7 +10,7 @@ const UploaderInner = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 300px;
+  min-height: 500px;
 
   *:first-child {
     margin-bottom: 8px;
@@ -53,7 +53,7 @@ export const Uploader = (props: Props) => {
       <UploaderInner>
         <input type="file" name="picture" ref={fileInputRef} onChange={onChange}/>
         <Icon icon="media" iconSize={32}/>
-        <Label>ドラッグ&ドロップで画像を選択できます</Label>
+        <Label>クリックして編集したいファイルを選択</Label>
       </UploaderInner>
     </Card>
   )

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { RadioGroup, Radio, FormGroup, NumericInput } from '@blueprintjs/core'
+import { RadioGroup, Radio, FormGroup, NumericInput, H2 } from '@blueprintjs/core'
 import { ChangeCopyrightPositionListener } from '../event'
 import { TextProperty, defaultProperty, Position, isPosition, isFontColor, FontColor } from '../text-property'
 
@@ -78,10 +78,11 @@ export const PropertyEditor = (props: Props) => {
   }, [formState, setFormState, props.emit])
 
   return (
-    <form>
+    <section>
+      <H2>編集項目</H2>
       <CopyrightPositionRadioGroup onCopyrightConfigChange={onCopyrightPositionChange} value={formState.position}/>
       <FontSizeInput onChange={onFontSizeChange} value={formState.fontSize} />
-        <FontColorRadioGroup onChange={onFontColorChange} value={formState.fontColor}/>
-    </form>
+      <FontColorRadioGroup onChange={onFontColorChange} value={formState.fontColor}/>
+    </section>
   )
 }

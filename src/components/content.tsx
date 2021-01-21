@@ -4,7 +4,8 @@ import { Previewer } from './previewer'
 import { PropertyEditor } from './property-editor'
 import { ImageParams } from '../image'
 import { createNanoEvents, DefaultEvents, Emitter } from 'nanoevents'
-import { ChangeCopyrightPositionListener } from '../event'
+import { Instructions } from './instructions'
+import { Divider } from '@blueprintjs/core'
 
 const ContentInner = styled.div`
   display: flex;
@@ -18,10 +19,14 @@ const ContentInner = styled.div`
 
   .preview {
     width: 50vw;
+    min-height: 500px;
   }
 
   .property-editor {
     width: 50vw;
+    * {
+      height: auto;
+    }
   }
 `
 
@@ -54,6 +59,8 @@ export const Content = () => {
         <Previewer onUploaded={onUploaded} imageParams={imageParams} listen={listen}/>
       </div>
       <div className="property-editor">
+        <Instructions />
+        <Divider />
         <PropertyEditor emit={emit}/>
       </div>
     </ContentInner>
