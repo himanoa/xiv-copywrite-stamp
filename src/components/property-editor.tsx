@@ -26,14 +26,13 @@ export const CopyrightPositionRadioGroup = (props: CopyrightPositionRadioGroupPr
 
 interface FontSizeInputProps {
   value: number
-  onChange: React.FormEventHandler<HTMLInputElement> 
+  onChange: (fontSize: number)  => void
 }
 
 export const FontSizeInput = (props: FontSizeInputProps) => {
   return (
     <FormGroup label="フォントサイズ" >
-
-      <NumericInput defaultValue={props.value} onChange={props.onChange}/>
+      <NumericInput defaultValue={props.value} onValueChange={props.onChange}/>
     </FormGroup>
   )
 }
@@ -51,8 +50,9 @@ export const PropertyEditor = (props: Props) => {
   }, [formState, setFormState, props.emit])
 
 
-  const onFontSizeChange = useCallback<React.FormEventHandler<HTMLInputElement>>((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newState = {...formState, fontSize: parseInt(e.target.value, 10)}
+  const onFontSizeChange = useCallback<(fontSize: number) => void>((fontSize) => {
+    const newState = {...formState, fontSize}
+    console.dir(newState)
     props.emit(newState)
     setFormState(newState)
   }, [formState, setFormState, props.emit])

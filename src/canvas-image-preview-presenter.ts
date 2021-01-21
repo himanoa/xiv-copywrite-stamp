@@ -1,5 +1,5 @@
 import { ImagePreviewPresenter, LoadResult } from "./image-preview-presenter"
-import { getDrawTextParameter } from "./draw-text";
+import { getDrawTextParameter, Size } from "./draw-text";
 import { defaultProperty, TextProperty } from './text-property'
 
 export function createCanvasImagePreviewPresenter(
@@ -35,16 +35,15 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
   public async drawCopyright(overwriteTextProperty?: TextProperty) {
     this.textProperty = {...this.textProperty, ...overwriteTextProperty}
     await this.load();
-    const textSize = {
-      width: this.copyrightDom.offsetWidth,
-      height: this.copyrightDom.offsetHeight 
-    }
+    const textSize = this.computeTextSize(this.textProperty.fontSize) 
     const canvasSize = {
       width: this.canvasElement.width,
       height: this.canvasElement.height
     }
     const textParams = getDrawTextParameter(this.copyrightDom.innerHTML, this.textProperty.position, textSize, canvasSize)
-    this.canvasContext().strokeText(textParams.text, textParams.x, textParams.y)
+    const ctx = this.canvasContext()
+    ctx.font = `${this.textProperty.fontSize}px sans-serif`
+    ctx.fillText(textParams.text, textParams.x, textParams.y)
   }
 
   public load(): Promise<LoadResult> {
@@ -77,5 +76,14 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
     }
 
     return ctx
+  }
+
+  private computeTextSize(fontSize: number): Size {
+    this.copyrightDom.style["fontFamily"] = "sans-serif" 
+    this.copyrightDom.style["fontSize"] = `${fontSize}px`
+    return {
+      width: this.copyrightDom.offsetWidth,
+      height: this.copyrightDom.offsetHeight 
+    }
   }
 }
