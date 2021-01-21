@@ -15,7 +15,8 @@ export type Position = "upper-left" | "upper-right" | "lower-left" | "lower-righ
 
 
 export type ChangeCopyrightConfigPayload = {
-  position: Position 
+  position: Position,
+  fontSize: number
 }
 export type ChangeCopyrightPositionListener = (c: ChangeCopyrightConfigPayload) => void
 
@@ -42,17 +43,5 @@ export const isPosition = (position: string): position is Position => {
     }
   }
   return false;
-}
-
-export const changeCopyrightConfig = (deps: {
-  emit: (params: ChangeCopyrightConfigPayload) => void
-}) => (v: string) => {
-  if(isPosition(v)) {
-    deps.emit({
-      position: v
-    })
-  } else {
-    throw new Error(`${v}は許容されたPositionではありません`)
-  }
 }
 

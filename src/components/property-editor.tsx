@@ -1,25 +1,19 @@
-import React, { useCallback, useState } from 'react'
+import React, { FormEventHandler, useCallback, useState } from 'react'
 import { RadioGroup, Radio } from '@blueprintjs/core'
-import { Position, changeCopyrightConfig, ChangeCopyrightPositionListener } from '../event'
+import { Position, ChangeCopyrightPositionListener, isPosition } from '../event'
 
 interface Props {
   emit: ChangeCopyrightPositionListener
 }
 
 interface CopyrightPositionRadioGroupProps {
-  onCopyrightConfigChange: (e: string) => void
+  value: Position | undefined
+  onCopyrightConfigChange: React.FormEventHandler<HTMLInputElement> 
 }
 
 export const CopyrightPositionRadioGroup = (props: CopyrightPositionRadioGroupProps) => {
-  const [position, setPosition] = useState<Position | undefined>(undefined)
-
-  const onChange = useCallback((v) => {
-    setPosition(v.target.value)
-    props.onCopyrightConfigChange(v.target.value)
-  }, [setPosition, props.onCopyrightConfigChange])
-
   return (
-    <RadioGroup label="コピーライトの位置" onChange={onChange} selectedValue={position}>
+    <RadioGroup label="コピーライトの位置" onChange={props.onCopyrightConfigChange} selectedValue={props.value}>
       <Radio label="左上" value="upper-left"/>
       <Radio label="左下" value="lower-left"/>
       <Radio label="右上" value="upper-right"/>
@@ -29,12 +23,27 @@ export const CopyrightPositionRadioGroup = (props: CopyrightPositionRadioGroupPr
 }
 
 
+type FormState = {
+  fontSize: number,
+  position: Position | undefined
+}
 export const PropertyEditor = (props: Props) => {
-  const onCopyrightPositionChange = useCallback(changeCopyrightConfig({emit: props.emit}), [props.emit])
+  const [formState, setFormState] = useState<FormState>({
+    fontSize: 14,
+    position: undefined
+  })
+
+  const onCopyrightPositionChange = useCallback<React.FormEventHandler<HTMLInputElement>>((e: React.ChangeEvent<HTMLInputElement>) => {
+    if(isPosition(e.target.value)) {
+      const newState = {...formState, position: e.target.value}
+      props.emit(newState)
+      setFormState(newState)
+    }
+  }, [formState, setFormState, props.emit])
 
   return (
     <form>
-      <CopyrightPositionRadioGroup onCopyrightConfigChange={onCopyrightPositionChange}/>
+      <CopyrightPositionRadioGroup onCopyrightConfigChange={onCopyrightPositionChange} value={formState.position}/>
     </form>
   )
 }

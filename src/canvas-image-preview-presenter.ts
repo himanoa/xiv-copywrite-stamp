@@ -45,7 +45,10 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
       })
     })
 
-    promise.then(({image}) => {
+    promise.then(({image, size}) => {
+      console.dir(image)
+      this.canvasElement.width = size.width
+      this.canvasElement.height = size.height
       this.canvasContext().drawImage(image, 0, 0)
     })
     image.src = this.imageSrc;
