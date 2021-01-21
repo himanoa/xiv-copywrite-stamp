@@ -1,7 +1,5 @@
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { ImageParams } from "../image"
-import { isChangeCopyrightPosition  } from "../event"
-import { getDrawTextParameter } from "../draw-text";
 import styled from 'styled-components';
 import { createCanvasImagePreviewPresenter } from '../canvas-image-preview-presenter'
 

@@ -14,12 +14,12 @@ export const isEvents = (e: string): e is Events => {
 export type Position = "upper-left" | "upper-right" | "lower-left" | "lower-right"
 
 
-export type ChangeCopyrightPositionPayload = {
+export type ChangeCopyrightConfigPayload = {
   position: Position 
 }
-export type ChangeCopyrightPositionListener = (c: ChangeCopyrightPositionPayload) => void
+export type ChangeCopyrightPositionListener = (c: ChangeCopyrightConfigPayload) => void
 
-export const isChangeCopyrightPosition = (e: any): e is ChangeCopyrightPositionPayload => {
+export const isChangeCopyrightConfig = (e: any): e is ChangeCopyrightConfigPayload => {
   if(isPosition(e.position)) {
     return true
   } 
@@ -44,8 +44,8 @@ export const isPosition = (position: string): position is Position => {
   return false;
 }
 
-export const changeCopyrightPosition = (deps: {
-  emit: (params: ChangeCopyrightPositionPayload) => void
+export const changeCopyrightConfig = (deps: {
+  emit: (params: ChangeCopyrightConfigPayload) => void
 }) => (v: string) => {
   if(isPosition(v)) {
     deps.emit({
