@@ -43,6 +43,7 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
     const textParams = getDrawTextParameter(this.copyrightDom.innerHTML, this.textProperty.position, textSize, canvasSize)
     const ctx = this.canvasContext()
     ctx.font = `${this.textProperty.fontSize}px sans-serif`
+    ctx.textBaseline = textParams.baseLine
     ctx.fillStyle = this.textProperty.fontColor
     ctx.fillText(textParams.text, textParams.x, textParams.y)
   }
