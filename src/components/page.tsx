@@ -1,8 +1,8 @@
-import React from 'react'
-import { Header } from './header'
-import { Content } from './content'
-import { Footer } from './footer'
-import styled from 'styled-components'
+import React from "react";
+import { Header } from "./header";
+import { Content } from "./content";
+import { Footer } from "./footer";
+import styled from "styled-components";
 
 const PageInner = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const PageInner = styled.div`
   footer {
     margin-top: auto;
   }
-`
+`;
 export const Page = () => {
   return (
     <PageInner>
@@ -34,5 +34,5 @@ export const Page = () => {
         <Footer></Footer>
       </footer>
     </PageInner>
-  )
-}
+  );
+};

@@ -1,1 +1,1 @@
-export type UploadState = "not-uploaded" | "uploaded"
+export type UploadState = "not-uploaded" | "uploaded";

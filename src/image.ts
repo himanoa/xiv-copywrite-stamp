@@ -1,3 +1,3 @@
 export type ImageParams = {
-  dataUrl: string,
-}
+  dataUrl: string;
+};
