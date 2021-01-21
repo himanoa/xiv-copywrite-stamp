@@ -67,6 +67,7 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
     promise.then(({ image, size }) => {
       this.canvasElement.width = size.width;
       this.canvasElement.height = size.height;
+
       this.canvasContext().drawImage(image, 0, 0);
     });
     image.src = this.imageSrc;
@@ -89,6 +90,8 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
   }
 
   private computeTextSize(fontSize: number): Size {
+    this.copyrightDom.style["width"] = `${this.canvasElement.width}`;
+    this.copyrightDom.style["height"] = `${this.canvasElement.height}`;
     this.copyrightDom.style["fontFamily"] = "sans-serif";
     this.copyrightDom.style["fontSize"] = `${fontSize}px`;
     return {

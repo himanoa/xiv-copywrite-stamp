@@ -9,6 +9,7 @@ const PreviewInner = styled.div`
   overflow: scroll;
   span {
     visibility: hidden;
+    white-space: nowrap;
   }
 `;
 
@@ -40,7 +41,9 @@ export const Preview = (props: Props) => {
   return (
     <PreviewInner>
       <canvas ref={canvasRef}></canvas>
-      <span ref={copyrightRef}>{COPYRIGHT}</span>
+      <div>
+        <span ref={copyrightRef}>{COPYRIGHT}</span>
+      </div>
     </PreviewInner>
   );
 };

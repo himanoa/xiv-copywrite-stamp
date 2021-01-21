@@ -39,7 +39,7 @@ export const getDrawTextParameter = (
     case "lower-left": {
       return {
         x: 0 + padding,
-        y: imageSize.height - textSize.height / 2,
+        y: imageSize.height - textSize.height / 2 - padding,
         baseLine: "top",
         text,
       };
@@ -47,7 +47,7 @@ export const getDrawTextParameter = (
     case "lower-right": {
       return {
         x: imageSize.width - textSize.width - padding,
-        y: imageSize.height - textSize.height / 2,
+        y: imageSize.height - textSize.height / 2 - padding,
         baseLine: "top",
         text,
       };
