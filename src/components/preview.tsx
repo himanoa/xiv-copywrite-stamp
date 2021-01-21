@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import { ImageParams } from "../image"
 import { isChangeCopyrightPosition  } from "../event"
 import { getDrawTextParameter } from "../draw-text";
 import styled from 'styled-components';
+import { createCanvasImagePreviewPresenter } from '../canvas-image-preview-presenter'
 
 const PreviewInner = styled.div`
   max-width: 100%;
@@ -25,53 +26,23 @@ export const Preview = (props: Props) => {
   const copyrightRef = useRef<HTMLSpanElement | null>(null)
 
   useEffect(() => {
-    props.listen((e) => {
-      const copyrightDom = copyrightRef.current
-      const canvas = canvasRef.current
+    const canvasImagePreviewPresenter = createCanvasImagePreviewPresenter(
+      canvasRef.current,
+      copyrightRef.current,
+      props.imageParams.dataUrl
+    )
 
-      if(copyrightDom && canvas && isChangeCopyrightPosition(e)) {
-        const textSize = {
-          width: copyrightDom.offsetWidth,
-          height: copyrightDom.offsetHeight 
-        }
-        const canvasSize = {
-          width: canvas.width,
-          height: canvas.height
-        }
-
-        const params = getDrawTextParameter(COPYRIGHT, e.position, textSize, canvasSize)
-
-        const ctx = canvasRef.current?.getContext('2d')
-        const image = new Image()
-        image.src = props.imageParams.dataUrl
-        ctx?.drawImage(image, 0, 0)
-        ctx?.strokeText(params.text, params.x, params.y)
+    canvasImagePreviewPresenter.load().then(({size}) => {
+      if(canvasRef.current) {
+        canvasRef.current.width = size.width
+        canvasRef.current.height = size.height
       }
     })
-  }, [props.listen, canvasRef.current, copyrightRef.current])
 
-  useEffect(() => {
-    if(canvasRef.current) {
-      const callback = () => {
-        const ctx = canvasRef.current?.getContext('2d')
-
-        if(canvasRef.current) {
-          canvasRef.current.width = image.width
-          canvasRef.current.height = image.height
-          ctx?.drawImage(image, 0, 0)
-        }
-
-      }
-
-      const image = new Image()
-      image.src = props.imageParams.dataUrl
-      image.addEventListener("load", callback, false)
-
-      return () => {
-        image.removeEventListener('load', callback)
-      }
-    }
-  }, [props.imageParams.dataUrl, canvasRef.current])
+    props.listen((e) => {
+      canvasImagePreviewPresenter?.drawCopyright(e.position)
+    })
+  }, [canvasRef.current, copyrightRef.current])
 
   return (
     <PreviewInner>
