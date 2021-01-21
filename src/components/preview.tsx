@@ -30,10 +30,10 @@ export const Preview = (props: Props) => {
       props.imageParams.dataUrl
     )
 
-    canvasImagePreviewPresenter.load()
+    canvasImagePreviewPresenter.drawCopyright()
 
     props.listen((e) => {
-      canvasImagePreviewPresenter?.drawCopyright(e.position)
+      canvasImagePreviewPresenter?.drawCopyright(e)
     })
   }, [canvasRef.current, copyrightRef.current])
 

@@ -1,4 +1,4 @@
-import { Position } from './text-property'
+import { TextProperty } from './text-property'
 import { Size } from "./draw-text";
 
 export type LoadResult =  {
@@ -7,6 +7,6 @@ export type LoadResult =  {
 }
 
 export interface ImagePreviewPresenter {
-  drawCopyright(position: Position, color: 'black' | 'white'): void
+  drawCopyright(overwriteTextProperty?: TextProperty): void
   load(): Promise<LoadResult>
 }

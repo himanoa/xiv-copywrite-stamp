@@ -1,6 +1,6 @@
 import { ImagePreviewPresenter, LoadResult } from "./image-preview-presenter"
 import { getDrawTextParameter } from "./draw-text";
-import { Position } from './text-property'
+import { defaultProperty, TextProperty } from './text-property'
 
 export function createCanvasImagePreviewPresenter(
   canvasElement: HTMLCanvasElement | null,
@@ -16,14 +16,24 @@ export function createCanvasImagePreviewPresenter(
 
 class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
   private context: CanvasRenderingContext2D | null = null
+  private canvasElement: HTMLCanvasElement
+  private copyrightDom: HTMLSpanElement
+  private imageSrc: string
+  private textProperty: TextProperty
 
   constructor(
-    private canvasElement: HTMLCanvasElement,
-    private copyrightDom: HTMLSpanElement,
-    private imageSrc: string
-  ) {}
+    canvasElement: HTMLCanvasElement,
+    copyrightDom: HTMLSpanElement,
+    imageSrc: string
+  ) {
+    this.canvasElement = canvasElement
+    this.copyrightDom = copyrightDom
+    this.imageSrc = imageSrc
+    this.textProperty = defaultProperty()
+  }
 
-  public async drawCopyright(position: Position) {
+  public async drawCopyright(overwriteTextProperty?: TextProperty) {
+    this.textProperty = {...this.textProperty, ...overwriteTextProperty}
     await this.load();
     const textSize = {
       width: this.copyrightDom.offsetWidth,
@@ -33,7 +43,7 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
       width: this.canvasElement.width,
       height: this.canvasElement.height
     }
-    const textParams = getDrawTextParameter(this.copyrightDom.innerHTML, position, textSize, canvasSize)
+    const textParams = getDrawTextParameter(this.copyrightDom.innerHTML, this.textProperty.position, textSize, canvasSize)
     this.canvasContext().strokeText(textParams.text, textParams.x, textParams.y)
   }
 
@@ -46,7 +56,6 @@ class CanvasImagePreviewPresenter implements ImagePreviewPresenter {
     })
 
     promise.then(({image, size}) => {
-      console.dir(image)
       this.canvasElement.width = size.width
       this.canvasElement.height = size.height
       this.canvasContext().drawImage(image, 0, 0)
