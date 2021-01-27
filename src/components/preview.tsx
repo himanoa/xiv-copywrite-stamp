@@ -18,7 +18,7 @@ interface Props {
   listen: (cb: (e: any) => void) => void;
 }
 
-const COPYRIGHT = "(C) 2010 SQUARE ENIX CO., LTD. All Rights Reserve";
+const COPYRIGHT = "(C) 2010 SQUARE ENIX CO., LTD. All Rights Reserved.";
 
 export const Preview = (props: Props) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
