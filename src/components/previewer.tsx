@@ -1,5 +1,5 @@
 import React from "react";
-import { Uploader } from "./uploader";
+import { Uploader } from "./file-selector";
 import { Preview } from "./preview";
 import { ImageParams } from "../image";
 
